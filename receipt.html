@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt - Olives & Lemon</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/logo1-removebg-preview.png?v=1">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/logo1-removebg-preview.png?v=1">
+    <link rel="shortcut icon" href="assets/images/logo1-removebg-preview.png?v=1">
+    <link rel="apple-touch-icon" href="assets/images/logo1-removebg-preview.png?v=1">
+    <link rel="stylesheet" href="shop.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      .receipt { max-width: 720px; margin: 20px auto 60px; }
+      .brandline { display:flex; align-items:center; gap:12px; }
+      .brandline img { width:48px; height:48px; border-radius:8px; background:#fff; padding:4px; }
+      .muted { color:#6c757d; }
+      @media print {
+        .no-print { display:none !important; }
+        body { background:#fff; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="receipt container">
+      <div class="d-flex justify-content-between align-items-center no-print" style="margin-top:16px;">
+        <a href="store.html" class="btn btn-outline-secondary">Back to Store</a>
+        <div class="btn-group">
+          <button id="printBtn" class="btn btn-primary"><i class="fa-solid fa-print"></i> Print</button>
+          <a id="trackBtn" class="btn btn-outline-primary" href="#">Track</a>
+        </div>
+      </div>
+
+      <div class="card mt-3">
+        <div class="card-body">
+          <div class="brandline mb-2">
+            <img src="assets/images/logo1-removebg-preview.png" alt="Logo"/>
+            <div>
+              <div class="fw-bold">Olives & Lemon Cafe To Go</div>
+              <div class="small muted">Salvilla St., San Miguel, Philippines</div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <div class="fw-bold">Receipt</div>
+              <div class="small">Order ID: <code id="r_id">...</code></div>
+              <div class="small">Date: <span id="r_date">...</span></div>
+              <div class="small">Status: <span id="r_status">...</span></div>
+            </div>
+            <div class="text-end">
+              <div class="small">Customer</div>
+              <div class="fw-bold" id="r_name">...</div>
+              <div class="small" id="r_phone">...</div>
+              <div class="small" id="r_address">...</div>
+              <div class="small" id="r_type">...</div>
+            </div>
+          </div>
+          <hr>
+          <div class="vstack gap-2" id="r_items"></div>
+          <hr>
+          <div class="d-flex justify-content-end">
+            <div style="min-width:260px">
+              <div class="d-flex justify-content-between"><div class="muted">Subtotal</div><div>₱ <span id="r_sub">0.00</span></div></div>
+              <div class="d-flex justify-content-between"><div class="muted">Discount</div><div>- ₱ <span id="r_disc">0.00</span></div></div>
+              <div class="d-flex justify-content-between"><div class="muted">Payment</div><div><span id="r_paymethod">Cash</span> <span class="text-success" id="r_paid"></span></div></div>
+              <div class="d-flex justify-content-between"><div class="muted">Reference</div><div><code id="r_ref">-</code></div></div>
+              <hr>
+              <div class="d-flex justify-content-between fw-bold"><div>Total</div><div>₱ <span id="r_total">0.00</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js" defer></script>
+    <script src="receipt.js"></script>
+  </body>
+</html>
