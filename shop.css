@@ -21,9 +21,12 @@ body{
 .brand img{width:52px;height:52px;border-radius:12px;background:#fff;padding:6px}
 .brand-text h1{font-size:1.4rem;margin:0;line-height:1.2}
 .brand-text p{margin:4px 0 0;opacity:.9;font-size:.9rem}
-.meta{display:flex;align-items:center;gap:16px}
+.meta{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .meta .hours{opacity:.95}
 .meta .social a{color:#fff;margin-left:10px}
+.store-nav{display:flex;gap:14px}
+.store-nav a{color:#fff;text-decoration:none;font-weight:500;opacity:.9;transition:opacity .2s}
+.store-nav a:hover{opacity:1;text-decoration:underline}
 
 .canopy{height:26px;background:repeating-linear-gradient(90deg,#70d22a 0 70px,#e2fa6e 70px 140px);opacity:.95}
 .canopy-alt{background:repeating-linear-gradient(90deg,#dff0df 0 70px,#ffffff 70px 140px)}
