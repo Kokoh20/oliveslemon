@@ -9,15 +9,19 @@ if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true
 
 // Handle login
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_once __DIR__ . '/../database/db.php';
+    $db = get_db();
+
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
-    
-    // Simple authentication (in production, use proper password hashing)
-    $valid_username = 'admin';
-    $valid_password = 'admin123'; // Change this in production!
-    
-    if ($username === $valid_username && $password === $valid_password) {
+
+    $stmt = $db->prepare('SELECT id, password FROM admin_users WHERE username = ?');
+    $stmt->execute([$username]);
+    $user = $stmt->fetch();
+
+    if ($user && password_verify($password, $user['password'])) {
         $_SESSION['admin_logged_in'] = true;
+        $_SESSION['admin_user_id'] = $user['id'];
         $_SESSION['login_time'] = time();
         header('Location: admin.html');
         exit;
