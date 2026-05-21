@@ -62,8 +62,9 @@
 ## Usage
 1. Navigate to `/admin_panel/`
 2. Login with credentials
-3. Manage orders, view statistics
-4. Click logout when finished
+3. A-P - "admin" - "admin123"
+4. Manage orders, view statistics
+5. Click logout when finished
 
 ## Connection to Main System
 - Uses same `orders.php` API as main store
