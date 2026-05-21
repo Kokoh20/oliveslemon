@@ -1,72 +1,145 @@
-# Olives & Lemon Admin Panel
+# Olives & Lemon — Cafe Online Ordering System
 
-## Access
-- **Main URL**: `http://127.0.0.1:3000/admin_panel/` (auto-redirects to login)
-- **Direct Login**: `http://127.0.0.1:3000/admin_panel/login.php`
-- **Admin Dashboard**: `http://127.0.0.1:3000/admin_panel/admin.html` (requires login)
-- **POS System**: `http://127.0.0.1:3000/admin_panel/pos.html` (requires login)
-- **Default Login**: `admin` / `admin123`
+A full-stack online ordering system for **Olives & Lemon Cafe**, built with HTML, CSS, JavaScript (vanilla) and PHP.
 
-## Access Flow
-1. Go to `http://127.0.0.1:3000/admin_panel/`
-2. Automatically redirected to login page
-3. Enter credentials
-4. Redirected to admin dashboard
-5. Access POS and other admin features
+## Quick Start
 
-## Features
+```bash
+# Linux / macOS
+./start_store.sh
 
-### 📊 **Admin Dashboard**
-- **Real-time Metrics**: Total orders, completed, preparing, today's sales
-- **Quick Actions**: Direct POS access, refresh dashboard, export orders
-- **Order Management**: View, filter, search, update status, delete orders
-- **Export Functionality**: Download today's orders as CSV
+# Windows
+start_store.bat
+```
 
-### 💰 **Integrated POS System**
-- **Daily Sales Summary**: Complete breakdown by date
-- **Payment Method Analysis**: Cash, GCash, PayPal breakdowns
-- **Order Type Tracking**: Pickup vs delivery statistics
-- **Detailed Order List**: Individual order information
-- **Print & Export**: Print reports, download CSV data
+Then open **http://127.0.0.1:3000/** in your browser.
 
-### 🔗 **Seamless Navigation**
-- **Admin → POS**: One-click access from dashboard
-- **POS → Admin**: Quick return navigation
-- **Unified Authentication**: Single login for all admin features
-- **Consistent UI**: Matching design and user experience
+> Requires **PHP 8.0+** installed and available in PATH.
 
-## Security Features
-- Session-based authentication
-- 30-minute session timeout
-- Automatic logout
-- Protected admin pages
+---
 
-## Files Structure
-- `login.php` - Login page
-- `admin.html` - Main admin dashboard (PHP-protected)
-- `auth_check.php` - Authentication middleware
-- `logout.php` - Logout handler
-- `admin.js` - Admin functionality
-- `admin_orders.html` - Orders management
+## Pages
 
-## Security Notes
-⚠️ **IMPORTANT**: Change default password in `login.php` before production!
+| Page | URL | Description |
+|------|-----|-------------|
+| Home (Landing) | `/home.html` | Brand landing page with video header, about section, gallery |
+| Shop / Order | `/index.html` | Full product catalog, cart, ordering |
+| Checkout | `/checkout.html` | Customer info, payment method, place order |
+| Receipt | `/receipt.html?id=...` | Printable receipt |
+| Track Order | `/track.html?id=...` | Live order status tracker |
+| About | `/about.html` | Company story |
+| Location | `/location.html` | Map and contact info |
+| Gallery | `/gallery.html` | Photo gallery with filters |
+| Services | `/services.html` | Services offered |
 
-### Recommended Security Improvements
-1. Use password hashing instead of plain text
-2. Implement rate limiting for login attempts
-3. Add IP whitelisting
-4. Use HTTPS in production
-5. Implement proper user roles and permissions
+## Admin Panel
 
-## Usage
-1. Navigate to `/admin_panel/`
-2. Login with credentials
-3. A-P - "admin" - "admin123"
-4. Manage orders, view statistics
-5. Click logout when finished
+| Page | URL | Description |
+|------|-----|-------------|
+| Admin Login | `/admin_panel/` | Auto-redirects to login |
+| Dashboard | `/admin_panel/admin.html` | Order management, KPIs, export |
+| POS Report | `/admin_panel/pos.html` | End-of-day sales breakdown |
 
-## Connection to Main System
-- Uses same `orders.php` API as main store
-- Reads from `data/orders.json`
-- Shares assets with main application
+**Default credentials:** `admin` / `admin123`
+
+### Admin Features
+- **Dashboard KPIs**: Total orders, completed, preparing, today's sales
+- **Order Workflow**: New → Preparing → Ready → Completed
+- **Quick Actions**: Refresh, export today's orders as CSV
+- **Search & Filter**: By name, phone, order ID, or status
+- **POS Reports**: Daily sales by payment method and order type
+- **Print & CSV Export**: Print reports or download CSV
+
+### Security
+- Session-based authentication with 30-minute timeout
+- PHP auth middleware (`auth_check.php`) on all admin pages
+- ⚠️ Change the default password in `login.php` before production!
+
+---
+
+## Project Structure
+
+```
+oliveslemon/
+├── index.html          # Shop / ordering page
+├── home.html           # Landing page
+├── checkout.html       # Checkout flow
+├── receipt.html        # Order receipt
+├── track.html          # Order tracking
+├── about.html          # About page
+├── location.html       # Location & map
+├── gallery.html        # Photo gallery
+├── services.html       # Services page
+├── shop.js             # Product catalog, cart, shop logic
+├── checkout.js         # Payment flow, order submission
+├── receipt.js          # Receipt rendering
+├── track.js            # Order tracking with polling
+├── shop.css            # Shop & checkout styles
+├── styles.css          # Landing & info page styles
+├── orders.php          # Orders REST API (GET/POST/PATCH/DELETE)
+├── products.php        # Products API
+├── util.php            # PHP helpers (JSON read/write)
+├── data/
+│   └── orders.json     # Order storage (auto-created)
+├── admin_panel/
+│   ├── index.php       # Redirect to login
+│   ├── login.php       # Admin login page
+│   ├── auth_check.php  # Auth middleware
+│   ├── logout.php      # Logout handler
+│   ├── admin.html      # Admin dashboard
+│   ├── admin.js        # Admin logic
+│   ├── pos.html        # POS report page
+│   └── pos.js          # POS report logic
+├── assets/
+│   ├── images/         # Product & brand images
+│   └── video/          # Landing page video
+├── start_store.sh      # Linux/macOS start script
+├── start_store.bat     # Windows start script
+└── capacitor.config.json # Mobile app config
+```
+
+## Tech Stack
+
+- **Frontend**: HTML5, CSS3, JavaScript (vanilla), Bootstrap 5, Font Awesome 6
+- **Backend**: PHP (built-in server)
+- **Data**: JSON file storage (`data/orders.json`)
+- **Cart**: localStorage (`olives-lemon-cart-v1`)
+- **Mobile**: Capacitor wrapper (optional)
+
+## API Endpoints
+
+### `orders.php`
+
+| Method | Params | Description |
+|--------|--------|-------------|
+| `GET` | — | List all orders (newest first) |
+| `GET` | `?id=ord_...` | Get single order |
+| `POST` | JSON body | Create new order |
+| `PATCH` | JSON `{id, status}` | Update order status |
+| `DELETE` | `?id=ord_...` | Delete order |
+
+### `products.php`
+
+| Method | Description |
+|--------|-------------|
+| `GET` | List all products with variants and pricing |
+
+## Payment Methods
+
+- **Cash** — default, no online payment required
+- **PayPal** — sandbox integration
+- **GCash** — simulated payment flow
+- **Card** — simulated payment flow
+
+## Coupon Codes
+
+| Code | Discount |
+|------|----------|
+| `PROMO10` | ₱10 off |
+| `PROMO20` | ₱20 off |
+
+## Contact
+
+- **Location**: Salvilla St., San Miguel, Philippines
+- **Hours**: 9:00am — 8:00pm, Monday — Sunday
+- **Phone**: (+63) 933 855 2489

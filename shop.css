@@ -728,3 +728,12 @@ body{
     font-size: 0.9rem;
   }
 }
+
+/* Order success toast notification */
+.custom-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:9999;width:90%;max-width:440px;animation:toastSlideUp .35s ease-out}
+.custom-toast-body{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px 20px;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+.toast-title{font-weight:700;font-size:1.05rem;color:#16a34a;margin-bottom:4px}
+.toast-text{font-size:.9rem;color:#374151;margin-bottom:10px}
+.toast-text code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.85rem;color:#0f172a}
+.toast-actions{display:flex;gap:8px;flex-wrap:wrap}
+@keyframes toastSlideUp{from{opacity:0;transform:translateX(-50%) translateY(30px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
