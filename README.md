@@ -93,6 +93,10 @@ oliveslemon/
 ├── assets/
 │   ├── images/         # Product & brand images
 │   └── video/          # Landing page video
+├── database/
+│   ├── schema.sql      # Database schema (SQLite)
+│   ├── db.php          # PDO connection helper
+│   └── migrate.php     # Migration & seed script
 ├── start_store.sh      # Linux/macOS start script
 ├── start_store.bat     # Windows start script
 └── capacitor.config.json # Mobile app config
@@ -102,9 +106,29 @@ oliveslemon/
 
 - **Frontend**: HTML5, CSS3, JavaScript (vanilla), Bootstrap 5, Font Awesome 6
 - **Backend**: PHP (built-in server)
-- **Data**: JSON file storage (`data/orders.json`)
+- **Database**: SQLite via PDO (`database/olives_lemon.db`)
 - **Cart**: localStorage (`olives-lemon-cart-v1`)
 - **Mobile**: Capacitor wrapper (optional)
+
+## Database Setup
+
+The system uses **SQLite** — no external database server required.
+
+```bash
+# Run the migration to create the database, seed products & admin user
+php database/migrate.php
+```
+
+This creates `database/olives_lemon.db` with:
+- **admin_users** — admin credentials (hashed passwords)
+- **orders** — order records
+- **order_items** — items per order
+- **order_item_extras** — extras per item
+- **products** — product catalog (78 products, 13 categories)
+- **product_variants** — sizes/variants per product
+- **product_extras** — available extras per category
+
+Existing orders in `data/orders.json` are automatically migrated.
 
 ## API Endpoints
 
