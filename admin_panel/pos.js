@@ -108,6 +108,46 @@
 
   els.refresh.addEventListener('click', load);
   els.printBtn.addEventListener('click', () => window.print());
+  els.date.addEventListener('change', load);
+
+  const csvBtn = document.getElementById('csvBtn');
+  if(csvBtn){
+    csvBtn.addEventListener('click', async ()=>{
+      const selected = els.date.value || '';
+      try{
+        const res = await fetch(API);
+        const body = await res.json();
+        const all = body.orders || [];
+        const dayOrders = all.filter(o => toDateKey(o.createdAt) === selected);
+        if(!dayOrders.length){ alert('No orders to export.'); return; }
+        const header = 'Order ID,Date,Status,Customer,Phone,Type,Payment Method,Paid,Subtotal,Discount,Total';
+        const rows = dayOrders.map(o =>{
+          const c = o.customer || {};
+          const t = o.totals || {};
+          const p = o.payment || {};
+          return [
+            o.id || '',
+            o.createdAt || '',
+            o.status || '',
+            '"'+(c.name||'').replace(/"/g,'""')+'"',
+            c.phone || '',
+            c.type || '',
+            p.method || 'cash',
+            p.paid ? 'Yes' : 'No',
+            money(t.subtotal||0),
+            money(t.discount||0),
+            money(t.payable||0)
+          ].join(',');
+        });
+        const csv = header + '\n' + rows.join('\n');
+        const blob = new Blob([csv], { type:'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = `pos-report-${selected}.csv`; a.click();
+        URL.revokeObjectURL(url);
+      }catch{ alert('Failed to export CSV.'); }
+    });
+  }
 
   setTodayDefault();
   load();
