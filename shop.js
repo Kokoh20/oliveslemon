@@ -231,7 +231,7 @@
   };
 
   
-  const CART_KEY = 'mauiz-cart-v1';
+  const CART_KEY = 'olives-lemon-cart-v1';
   const loadCart = () => { try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } catch { return []; } };
   const saveCart = (items) => localStorage.setItem(CART_KEY, JSON.stringify(items));
 
